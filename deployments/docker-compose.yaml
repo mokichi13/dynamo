@@ -1,0 +1,16 @@
+version: '3'
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    hostname: dynamodb
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath . -optimizeDbBeforeStartup
+    ports:
+      - 8000:8000
+  dynamodbadmin:
+    image: instructure/dynamo-local-admin
+    ports:
+      - 8001:8001
+    environment:
+      DYNAMO_ENDPOINT: http://dynamodb:8000
+    depends_on:
+      - dynamodb
